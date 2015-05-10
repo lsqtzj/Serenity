@@ -56,6 +56,16 @@ namespace Serenity
         public Type Editor { get; set; }
 
         /// <summary>
+        /// Custom extension to allow specifying Serenity editor types as editor
+        /// </summary>
+        public string EditorType { get; set; }
+
+        /// <summary>
+        /// Custom extension to allow specifying Serenity editor options
+        /// </summary>
+        public object EditorOptions { get; set; }
+
+        /// <summary>
         /// The property name in the data object to pull content from. (This is assumed to be on the root of the data object.) (default: "")
         /// </summary>
         public string Field { get; set; }
