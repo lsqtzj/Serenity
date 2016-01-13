@@ -29,7 +29,7 @@ namespace Serenity.Reporting
 
         public byte[] Execute()
         {
-            var exePath = UtilityExePath ?? HostingEnvironment.MapPath("~/Reports/Utility/wkhtmltopdf.exe");
+            var exePath = UtilityExePath ?? HostingEnvironment.MapPath("~/App_Data/Reporting/wkhtmltopdf.exe");
             if (!File.Exists(exePath))
                 throw new InvalidOperationException(String.Format("Can't find wkhtmltopdf.exe which is required for PDF generation at location: '{0}'!", exePath));
 
