@@ -329,6 +329,7 @@ namespace Serenity
                     dlg.Resizable = false;
                 }
 
+                uiDialog.AddClass("mobile-layout");
                 uiDialog.CSS(new
                 {
                     left = "0px",
@@ -337,8 +338,8 @@ namespace Serenity
                     height = jQuery.Window.GetHeight() + "px",
                 }.As<JsDictionary<string, object>>());
 
-                Q.LayoutFillHeight(this.Element);
                 J(Document.Body).ScrollTop(0);
+                Q.LayoutFillHeight(this.Element);
             }
             else
             {
@@ -356,6 +357,7 @@ namespace Serenity
 
                     }.As<JsDictionary<string, object>>());
 
+                    uiDialog.RemoveClass("mobile-layout");
                     this.element.RemoveData("responsiveData");
                 }
             }
