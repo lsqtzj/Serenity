@@ -83,11 +83,15 @@ namespace Serenity
             var self = this;
             element.Bind("dialogopen." + this.uniqueName, delegate
             {
+                J(Document.Body).AddClass("modal-dialog-open");
+
                 self.OnDialogOpen();
             });
 
             element.Bind("dialogclose." + this.uniqueName, delegate
             {
+                J(Document.Body).ToggleClass("modal-dialog-open", jQuery.Select(".ui-dialog:visible").Length > 0);
+
                 self.OnDialogClose();
             });
         }
@@ -300,6 +304,72 @@ namespace Serenity
         }
 
         public string IdPrefix { get { return idPrefix; } }
+
+        protected void HandleResponsivity()
+        {
+            var dlg = this.Element.Dialog();
+            var uiDialog = this.Element.Closest(".ui-dialog");
+
+            if (J(Document.Body).HasClass("mobile-device"))
+            {
+                var data = this.Element.GetDataValue("responsiveData") as ResponsiveData;
+                if (data == null)
+                {
+                    data = new ResponsiveData();
+                    data.draggable = dlg.Draggable;
+                    data.resizable = dlg.Resizable;
+                    var pos = uiDialog.Position();
+                    data.left = pos.Left;
+                    data.top = pos.Top;
+                    data.width = uiDialog.GetWidth();
+                    data.height = uiDialog.GetHeight();
+                    this.Element.Data("responsiveData", data);
+
+                    dlg.Draggable = false;
+                    dlg.Resizable = false;
+                }
+
+                uiDialog.CSS(new
+                {
+                    left = "0px",
+                    top = "0px",
+                    width = jQuery.Window.GetWidth() + "px",
+                    height = jQuery.Window.GetHeight() + "px",
+                }.As<JsDictionary<string, object>>());
+
+                Q.LayoutFillHeight(this.Element);
+                J(Document.Body).ScrollTop(0);
+            }
+            else
+            {
+                var data = this.Element.GetDataValue("responsiveData") as ResponsiveData;
+                if (data != null)
+                {
+                    dlg.Draggable = data.draggable;
+                    dlg.Resizable = data.resizable;
+                    this.Element.Closest(".ui-dialog").CSS(new
+                    {
+                        left = "0px",
+                        top = "0px",
+                        width = data.width + "px",
+                        height = data.height + "px"
+
+                    }.As<JsDictionary<string, object>>());
+
+                    this.element.RemoveData("responsiveData");
+                }
+            }
+        }
+
+        private class ResponsiveData
+        {
+            public bool draggable;
+            public bool resizable;
+            public int width;
+            public int height;
+            public int left;
+            public int top;
+        }
     }
 
     public abstract class TemplatedDialog : TemplatedDialog<object>

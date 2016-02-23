@@ -94,3 +94,43 @@ div.s-Toolbar .s-PopupToolButton .button-outer > span > b {
 .s-Form .translation > label.caption, .translation > label.caption {
     color: darkviolet;
 }
+
+.flex-layout {
+    .field { .display(flex); .flex-wrap(wrap); .align-items(flex-top); }
+    .editor { .flex(1); }
+    input.editor[type=checkbox] { .flex(0, 0, auto); }
+    .s-Form .editor { float: initial; }
+    .s-Form .caption { float: initial; }
+    .s-Form .vx { float: initial; }
+
+    @media (max-width: 760px) {
+        .field { .flex-wrap(wrap); }
+        .select2-container { .flex(1); }
+        .s-Form .caption { .flex(0, 1, 100%); width: auto; text-align: left; padding-top: 0px; padding-bottom: 2px; }
+        .category-title { margin: 12px 10px 8px 0; }
+        .s-PropertyGrid .category-title { padding: 3px 0; }
+    }
+}
+
+body.mobile-device.modal-dialog-open {
+    overflow-y: hidden;
+}
+
+.ui-dialog.flex-layout {
+    .flex-layout();
+
+    .ui-dialog-content, .s-DialogContent, .s-Form, form, .fieldset, .s-PropertyGrid {
+        .display(flex);
+        .flex-direction(column);
+        .flex-grow(1);
+    }
+
+    .category-links {
+        .flex-shrink(0);
+    }
+
+    .categories {
+        .flex(0 0 1);
+        overflow-y: scroll;
+    }
+}
